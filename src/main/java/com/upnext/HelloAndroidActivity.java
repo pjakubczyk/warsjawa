@@ -34,6 +34,10 @@ public class HelloAndroidActivity extends Activity {
         Injector.inject(this);
         Views.inject(this);
         hello.setText(applicationInfo.name);
+
+        WebTask webTask = new WebTask("http://files.mobile.up-next.com/list.json", hello);
+
+        webTask.execute();
     }
 
 }
