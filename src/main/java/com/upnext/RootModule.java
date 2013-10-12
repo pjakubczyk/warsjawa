@@ -8,7 +8,8 @@ import dagger.Module;
 @Module
 (
     includes = {
-            AndroidModule.class
+            AndroidModule.class,
+            ExecModule.class
     },
     injects = {
             HelloAndroidActivity.class,

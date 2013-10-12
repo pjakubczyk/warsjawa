@@ -17,6 +17,8 @@ public class HelloAndroidActivity extends Activity {
     TextView hello;
     @Inject
     ApplicationInfo applicationInfo;
+    @Inject
+    ExecutorInterface executorInterface;
 
     /**
      * Called when the activity is first created.
@@ -31,13 +33,13 @@ public class HelloAndroidActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate");
         setContentView(R.layout.main);
-        Injector.inject(this);
+        HelloApplication.inject(this);
         Views.inject(this);
         hello.setText(applicationInfo.name);
 
         WebTask webTask = new WebTask("http://files.mobile.up-next.com/list.json", hello);
 
-        webTask.execute();
+        executorInterface.execute(webTask);
     }
 
 }

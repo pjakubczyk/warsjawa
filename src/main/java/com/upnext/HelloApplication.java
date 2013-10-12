@@ -3,6 +3,7 @@ package com.upnext;
 import android.app.Application;
 import android.app.Instrumentation;
 import android.content.Context;
+import dagger.ObjectGraph;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.FROYO;
@@ -17,6 +18,7 @@ import static android.os.Build.VERSION_CODES.FROYO;
 public class HelloApplication extends Application {
 
     private static HelloApplication instance;
+    private static ObjectGraph objectGraph;
 
     /**
      * Create main application
@@ -26,26 +28,13 @@ public class HelloApplication extends Application {
 
     }
 
-    /**
-     * Create main application
-     *
-     * @param context
-     */
-    public HelloApplication(final Context context) {
-        this();
-        attachBaseContext(context);
-
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         instance = this;
-
-        // Perform injection
-        Injector.init(getRootModule(), this);
-
+        objectGraph = ObjectGraph.create(getRootModule());
     }
 
     private Object getRootModule() {
@@ -65,5 +54,13 @@ public class HelloApplication extends Application {
 
     public static HelloApplication getInstance() {
         return instance;
+    }
+
+    public static void add(Object... object){
+        objectGraph = ObjectGraph.create(object)   ;
+    }
+
+    public static void inject(Object target){
+        objectGraph.inject(target);
     }
 }
